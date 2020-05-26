@@ -74,7 +74,7 @@ function queryMpEmail(xml) {
 
 function exploreMapButton() {
   collectStatistics("Explore map button clicked");
-  window.location.href = "./map.html";
+  window.location.href = "./map";
 }
 
 function collectStatistics(data) {
