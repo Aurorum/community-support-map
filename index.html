@@ -1,148 +1,134 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>Map</title>
-		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-		<script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
-		<link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
-		<link href="./map.css" rel="stylesheet" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat&display=swap"
-			rel="stylesheet"
-		/>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-			}
-			#map {
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				width: 100%;
-			}
-		</style>
-	</head>
-	<body class="filter-none">
-		<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-		<link
-			rel="stylesheet"
-			href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
-			type="text/css"
-		/>
-		<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-		<div id="map"></div>
-		<div id="help-link">
-			<div class="help-link-inner">
-				<h4>How does it work?</h4>
-				<p>
-					This map shows a list of projects across the country intended to help vulnerable people
-					find accomodation and request food or medicinal supplies. The idea is that people in need
-					can find others in their local community willing to help them out, and
-					<strong>click the icons on the map</strong> to contact them.
-				</p>
-				<p>
-					It is through a community spirit that the worst events, such as a pandemic, can be
-					overcome. In an ideal world, the local council would be able to ensure the safety and
-					authenticity of all volunteers, which is why they are manually approved first.
-				</p>
-			</div>
-		</div>
-
-		<div id="filter" class="filter-box">
-			<p>Filter:</p>
-			<div class="filter-wrapper">
-				<div class="filter-item food" onclick="filterMarkers( 'food' )">
-					<img
-						src="https://cdn.discordapp.com/attachments/449249666798714890/713732862612078702/food-delivery_1.png"
-						alt="Food"
-					/>
-					<p>Food</p>
-				</div>
-				<div class="filter-item medicine" onclick="filterMarkers( 'medicine' )">
-					<img
-						src="https://cdn.discordapp.com/attachments/449249666798714890/713733874274009088/healthcare-and-medical_1.png"
-						alt="Medicine"
-					/>
-					<p>Medicine</p>
-				</div>
-				<div class="filter-item accommodation" onclick="filterMarkers( 'accommodation' )">
-					<img
-						src="https://cdn.discordapp.com/attachments/449249666798714890/713732880144269322/to-do-list.png"
-						alt="Accommodation"
-					/>
-					<p>Accommodation</p>
-				</div>
-				<div class="filter-item display-all" onclick="filterMarkers( 'none' )">
-					<img
-						src="https://cdn.discordapp.com/attachments/449249666798714890/713732880144269322/to-do-list.png"
-						alt="Display All"
-					/>
-					<p>Display All</p>
-				</div>
-			</div>
-		</div>
-
-		<div id="location-saver-prompt" class="save-location-prompt">
-			<p class="save-location-prompt-text">
-				Search for where you're located on the map and click it.
-			</p>
-		</div>
-		<div class="save-location" id="save-location-form">
-			<div id="save-location-instructions">
-				<p>We'd love for you to get involved in helping others around your area!</p>
-				<p>
-					To add your location onto the map, click the button below then select a place on the map.
-				</p>
-			</div>
-			<div class="location-button-wrapper">
-				<button onclick="setDroppingLocationPin()" id="add-location-button">
-					Add your location
-				</button>
-			</div>
-			<div id="add-location-info">
-				<div class="label-wrap">
-					<label for="help-type">What can you help provide?</label>
-					<select name="help-type" id="help-type">
-						<option value="food">Food</option>
-						<option value="medicine">Medicine</option>
-						<option value="accommodation">accommodation</option>
-					</select>
-				</div>
-				<div class="label-wrap">
-					<label for="add-location-textarea">Enter additional information on how to help.</label>
-					<textarea
-						maxlength="200"
-						id="add-location-textarea"
-						rows="4"
-						cols="24"
-						placeholder="We serve food between 10am and 11pm..."
-					></textarea>
-					<p id="textarea-character-count">Characters left: 200</p>
-				</div>
-
-				<div class="label-wrap">
-					<label for="email">Enter your email</label>
-					<input type="email" id="email" name="email" />
-				</div>
-				<p class="info-disclaimer">We will only use this information so that we can contact you.</p>
-				<p id="missing-info-error" class="incomplete-info-error">Error: all fields are required.</p>
-				<button onclick="fireInformation()">Submit</button>
-				<p class="technology-disclaimer">
-					Note: this form does actually work - it will send the data contained to me. After being
-					reviewed to ensure nothing inappropriate is included, I will add it to a Google Sheets
-					document. The Google Sheets API is then used to update the markers shown on the map.
-				</p>
-			</div>
-		</div>
-		<script>
-			document.getElementById( 'add-location-textarea' ).onkeyup = function () {
-				document.getElementById( 'textarea-character-count' ).innerHTML =
-					'Characters left: ' + ( 200 - this.value.length );
-			};
-		</script>
-		<script type="text/javascript" src="./map.js"></script>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Community Support Map</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <link href="./style.css" rel="stylesheet" />
+    <script type="text/javascript" src="./scripts.js"></script>
+    <link rel="icon" href="./assets/favicon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="menu-bar">
+      <p>
+        Note: this is an entry for a challenge and should be treated as so.
+        While all features (including the map) work, this is just a
+        proof-of-concept.
+      </p>
+    </div>
+    <div class="top-menu">
+      <img
+        src="./assets/logo.png"
+        class="site-icon"
+        alt="Community Support Map Icon"
+      />
+    </div>
+    <div class="main-box">
+      <div class="main-box-inner">
+        <p>
+          The Community Support Map is a project that aims to provide a way
+          <strong>to connect people</strong> so that we can all help each other
+          through the pandemic.
+        </p>
+        <div class="blair-quote">
+          <h2>
+            <blockquote>
+              This is a moment to seize. The Kaleidoscope has been shaken. The
+              pieces are in flux. Soon, they will settle again. Before they do,
+              let us re-order this world around us.
+            </blockquote>
+          </h2>
+          <p>
+            -British Prime Tony Blair, three weeks after 9/11 (2nd October 2001)
+          </p>
+        </div>
+        <div class="main-text">
+          <div class="main-text-inner">
+            <p>
+              Once again, the world is faced with an event of biblical
+              proportions. The only way to combat it is through community
+              spirit, where we all take responsibility for helping each other,
+              particularly whilst everyone is confined to staying at home. It
+              could be assisting an elderly neighbour with grocery shopping or
+              helping a local vulnerable person seeking accommodation. In this
+              new world, never again can we walk away from the suffering or the
+              needy, and so people must create the tools that connect us.
+            </p>
+          </div>
+          <div class="main-text-button">
+            <button type="button" onclick="exploreMapButton()">
+              Explore the map
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-image">
+        <img src="./assets/map-example.png" alt="Screenshot of the map" />
+      </div>
+    </div>
+    <div class="lower-boxes">
+      <div class="box box-one">
+        <h2>How does the map work?</h2>
+        <p>
+          Essentially, it allows people to search around their local area for
+          people offering assistance. If you're able to provide food, medicine
+          or accommodation, you should register this on the map! After being
+          approved, other people searching the map for help will then be able to
+          contact you.
+        </p>
+        <p>
+          It's aimed to be user-friendly and accessible, with even colour
+          contrasts being considered so that everyone can benefit.
+        </p>
+        <p>
+          The project is open-source and can be found
+          <a href="https://github.com/aurorum/covid-challenge">here</a>.
+        </p>
+      </div>
+      <div class="box box-two">
+        <h2>Contact your MP</h2>
+        <p>
+          Besides representing your views, your Member of Parliament is able to
+          support and promote local projects which you intend to engage in.
+        </p>
+        <div class="mp-search">
+          <p id="mp-email" class="mp-response">
+            Please enter a postcode to begin
+          </p>
+          <input
+            type="text"
+            maxlength="12"
+            id="postcode"
+            placeholder="Enter your postcode"
+          />
+          <button type="button" onclick="queryPostcode()">Enter</button>
+        </div>
+      </div>
+      <div class="box box-three">
+        <h2>Credits</h2>
+        <p>
+          The Community Support Map project uses the following APIs for carrying
+          and retrieving data:
+        </p>
+        <ul>
+          <li>Mapbox</li>
+          <li>Google Sheets</li>
+          <li>Postcode.io</li>
+          <li>Discord</li>
+          <li>UK Parliament</li>
+        </ul>
+        <p>
+          Credit must also be given to Flaticon for their free image designs.
+          All other coding, styling and designs has been written/created by me.
+        </p>
+      </div>
+    </div>
+  </body>
 </html>
