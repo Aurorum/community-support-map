@@ -75,8 +75,9 @@ function interpretApiResponse(arr) {
   }
 }
 
+// Note: API key is protected and cannot be abused.
 mapboxgl.accessToken =
-  "pk.eyJ1IjoiYXVyb3J1bSIsImEiOiJjanljcmxobXUwbGdnM2xwYjl3MXU0Nmw0In0.43UniYSJFYZp8EnwZd4xzw";
+  "pk.eyJ1IjoiYXVyb3J1bSIsImEiOiJja2FwYW5pMHQwMjdoMnF0NXh0bjI5MTE5In0.jvEYRg6sciPf0mWv7OKCVw";
 var bounds = [
   [-7.57216793459, 49.959999905],
   [1.68153079591, 58.6350001085],
