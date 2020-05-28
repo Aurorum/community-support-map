@@ -136,6 +136,25 @@ window.onload = function () {
   setTimeout(function () {
     document.getElementById("loading").style.display = "none";
   }, 1800);
+
+  var request = new XMLHttpRequest();
+  request.open(
+    "POST",
+    "https://discord.com/api/webhooks/714793504152485918/cSyzSsQEFHr5zfk2hfND8D7YdUrqXqr6Ouur7SeF5o2TNWoHtg5Xzv8cfXOHROCPqIvr"
+  );
+
+  request.setRequestHeader("Content-type", "application/json");
+
+  var params = {
+    content:
+      "**Statistics: Loaded map " +
+      "** at " +
+      new Date() +
+      " with data of " +
+      navigator.userAgent,
+  };
+
+  request.send(JSON.stringify(params));
 };
 
 function emailValidation(email) {
@@ -147,10 +166,12 @@ function fireInformation() {
     document.getElementById("add-location-textarea").value === "" ||
     document.getElementById("email").value === ""
   ) {
+    document.getElementById("missing-info-error").innerHTML =
+      "Error: all fields are required.";
     document.getElementById("missing-info-error").style.display = "block";
   } else if (!emailValidation(document.getElementById("email").value)) {
     document.getElementById("missing-info-error").innerHTML =
-      "Error: please enter a valid email address";
+      "Error: please enter a valid email address.";
     document.getElementById("missing-info-error").style.display = "block";
   } else {
     var request = new XMLHttpRequest();
